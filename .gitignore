@@ -1,0 +1,21 @@
+# Data files - không up data lên GitHub
+data/
+*.csv
+*.zip
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.egg-info/
+dist/
+
+# Environment
+.env
+venv/
+.venv/
+
+# Models
+*.pkl
+*.joblib
+*.h5

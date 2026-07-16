@@ -19,3 +19,5 @@ venv/
 *.pkl
 *.joblib
 *.h5
+
+.idea/

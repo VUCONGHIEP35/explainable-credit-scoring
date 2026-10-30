@@ -1,0 +1,33 @@
+{
+  "project_name": "Credit_Scoring_XAI",
+  "train_date": "2026-07",
+  "train_size": 334460,
+  "n_features": 28,
+
+  "active_model": "xgboost_core",
+
+  "models": {
+    "logistic_regression_baseline": {
+      "version": "1.0",
+      "role": "baseline",
+      "file_path": "model_artifacts/lr_baseline_model.joblib",
+      "auc_roc": 0.7679,
+      "gini": 0.5358,
+      "description": "Mô hình cơ sở tuyến tính, dùng để đối chứng và dự phòng."
+    },
+    "xgboost_core": {
+      "version": "1.0",
+      "role": "champion",
+      "file_path": "model_artifacts/xgboost_core_model.json",
+      "auc_roc": 0.8046,
+      "gini": 0.6093,
+      "improvement_vs_baseline": "4.78%",
+      "description": "Mô hình phi tuyến cốt lõi, tích hợp TreeSHAP."
+    }
+  },
+
+  "inference_settings": {
+    "threshold_high_risk": 0.80,
+    "threshold_medium_risk": 0.50
+  }
+}

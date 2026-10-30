@@ -1,7 +1,8 @@
-# Data files - không up data lên GitHub
+# Data files - khong up data lon len GitHub
 data/
 *.csv
 *.zip
+*.parquet
 
 # Python
 __pycache__/
@@ -15,11 +16,4 @@ dist/
 venv/
 .venv/
 
-# Models
-*.pkl
-*.joblib
-*.h5
-
 .idea/
-
-model_artifacts/

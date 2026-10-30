@@ -1,0 +1,20 @@
+# Dockerfile for Streamlit Web UI
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Cai dat cac thu vien can thiet cho UI
+RUN pip install --no-cache-dir \
+    streamlit==1.32.2 \
+    requests==2.31.0 \
+    pandas==2.2.0 \
+    pyarrow==15.0.0
+
+# Sao chep source code UI vao container
+COPY src/ ./src/
+
+EXPOSE 8501
+
+ENV API_URL="http://api:8000/predict"
+
+CMD ["streamlit", "run", "src/app_ui.py", "--server.port=8501", "--server.address=0.0.0.0"]

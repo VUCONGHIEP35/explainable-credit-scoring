@@ -44,21 +44,21 @@ Hệ thống được thiết kế theo kiến trúc Microservices hiện đại
 
 ```mermaid
 flowchart TD
-    subgraph Data_Pipeline["Data & Modeling Pipeline"]
-        A[Raw Parquet Data\n334k+ Records] --> B[Stage 1: Filter\nIV >= 0.02 & Corr]
-        B --> C[Stage 2: Embedded\nLightGBM Gain Selection]
-        C -->|28 Golden Features| D[XGBoost Champion Model\nAUC: 0.8046 | Gini: 60.9%]
+    subgraph Data_Pipeline["Data and Modeling Pipeline"]
+        A["Raw Parquet Data<br/>334k+ Records"] --> B["Stage 1: Filter<br/>IV >= 0.02 and Corr"]
+        B --> C["Stage 2: Embedded<br/>LightGBM Gain Selection"]
+        C -->|28 Golden Features| D["XGBoost Champion Model<br/>AUC: 0.8046 | Gini: 60.9%"]
     end
 
     subgraph Production_Serving["Production Serving (Docker)"]
-        D -->|Artifacts & Config| E[FastAPI Engine :8000\nAsync Lifespan]
-        F[TreeSHAP Explainer] --> E
-        E -->|JSON Response| G[REST API /predict\nLatency < 50ms]
+        D -->|Artifacts and Config| E["FastAPI Engine :8000<br/>Async Lifespan"]
+        F["TreeSHAP Explainer"] --> E
+        E -->|JSON Response| G["REST API /predict<br/>Latency &lt; 50ms"]
     end
 
     subgraph Client_App["Underwriting Interface"]
-        G --> H[Streamlit UI :8501\nWhat-If Simulator]
-        H --> I[Credit Officer / Underwriter]
+        G --> H["Streamlit UI :8501<br/>What-If Simulator"]
+        H --> I["Credit Officer / Underwriter"]
     end
 ```
 
@@ -70,14 +70,14 @@ Từ hàng trăm trường thông tin hành vi và thanh toán ban đầu, hệ 
 
 ```mermaid
 flowchart LR
-    Raw[Toàn bộ biến ban đầu] -->|Bước 1: Filter| F1[Loại biến IV < 0.02\n& Xử lý Đa tương quan]
-    F1 -->|Bước 2: Embedded| F2[LightGBM max_depth=3\nXếp hạng theo Gain]
-    F2 --> Golden[28 Features Vàng Tối Ưu]
+    Raw["Toàn bộ biến ban đầu"] -->|Bước 1: Filter| F1["Lọc IV >= 0.02<br/>và Xử lý Đa tương quan"]
+    F1 -->|Bước 2: Embedded| F2["LightGBM max_depth=3<br/>Xếp hạng theo Gain"]
+    F2 --> Golden["28 Features Vàng Tối Ưu"]
 ```
 
 1. **Bước 1 (Filter Method - Information Value & Correlation):**
-   - Tính toán chỉ số $IV$ (Information Value) cho từng biến. Loại bỏ các biến có $IV < 0.02$ (không có lực phân tách rủi ro).
-   - Lập ma trận tương quan Pearson/Spearman. Với các cặp biến có tương quan cao ($|r| > 0.7$), sử dụng $IV$ làm trọng tài để giữ lại biến có năng lực dự báo cao hơn.
+   - Tính toán chỉ số **IV** (Information Value) cho từng biến. Loại bỏ các biến có **IV < 0.02** (không có lực phân tách rủi ro).
+   - Lập ma trận tương quan Pearson/Spearman. Với các cặp biến có tương quan cao (**|r| > 0.7**), sử dụng IV làm trọng tài để giữ lại biến có năng lực dự báo cao hơn.
 2. **Bước 2 (Embedded Method - Shallow Tree Gain):**
    - Đưa các biến sạch vào mô hình **LightGBM nông** (`max_depth=3`) để đánh giá độ quan trọng (Feature Importance) theo Gain.
    - Trích xuất chính xác **28 đặc trưng vàng** có đóng góp tích cực và bền vững nhất cho mô hình.
@@ -229,7 +229,7 @@ Kiểm tra tình trạng hoạt động và trạng thái nạp mô hình vào b
 Dự báo xác suất rủi ro vỡ nợ và phân tích SHAP.
 
 **Request Body Example:**
-Truy cập [http://localhost:8000/docs](http://localhost:8000/docs) $\rightarrow$ bấm **Try it out** $\rightarrow$ bấm **Execute** để chạy ngay với dữ liệu 28 biến mẫu điền sẵn.
+Truy cập [http://localhost:8000/docs](http://localhost:8000/docs) → bấm **Try it out** → bấm **Execute** để chạy ngay với dữ liệu 28 biến mẫu điền sẵn.
 
 ---
 

@@ -47,19 +47,22 @@ flowchart TD
     subgraph Data_Pipeline["Data and Modeling Pipeline"]
         A["Raw Parquet Data<br/>334k+ Records"] --> B["Stage 1: Filter<br/>IV >= 0.02 and Corr"]
         B --> C["Stage 2: Embedded<br/>LightGBM Gain Selection"]
-        C -->|28 Golden Features| D["XGBoost Champion Model<br/>AUC: 0.8046 | Gini: 60.9%"]
+        C --> D["XGBoost Champion Model<br/>AUC: 0.8046 | Gini: 60.9%"]
     end
 
     subgraph Production_Serving["Production Serving (Docker)"]
-        D -->|Artifacts and Config| E["FastAPI Engine :8000<br/>Async Lifespan"]
+        E["FastAPI Engine :8000<br/>Async Lifespan"]
         F["TreeSHAP Explainer"] --> E
-        E -->|JSON Response| G["REST API /predict<br/>Latency &lt; 50ms"]
+        E --> G["REST API /predict<br/>Latency dưới 50ms"]
     end
 
     subgraph Client_App["Underwriting Interface"]
-        G --> H["Streamlit UI :8501<br/>What-If Simulator"]
+        H["Streamlit UI :8501<br/>What-If Simulator"]
         H --> I["Credit Officer / Underwriter"]
     end
+
+    D -->|Artifacts and Config| E
+    G --> H
 ```
 
 ---
